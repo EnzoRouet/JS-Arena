@@ -25,7 +25,7 @@ for (let i = 0; i < taille; i++) {
 // PARTIE 1
 
 // On défini un nouveau tableau pour limiter les effets de bords
-let tabPart1 = notes;
+let tabPart1 = [...notes];
 
 // On défini le max et le min sur le premier terme
 let maxValue = tabPart1[0];
@@ -66,7 +66,7 @@ console.log(notes);
 
 console.log("==========  Croissant ==========");
 // On défini un nouveau tableau pour limiter les effets de bords
-let tabCroissant = notes;
+let tabCroissant = [...notes];
 console.log("Le tableau de base est : " + notes);
 
 // On défini des compteur pour la boucle 1, la boucle 2 et le nombre de changement
@@ -106,7 +106,7 @@ console.log("Total de tour de boucles en croissant : " + compt * compt2);
 // BONUS 3
 console.log("========== Décroissant ==========");
 // On défini un nouveau tableau pour limiter les effets de bords
-let tabDécroissant = notes;
+let tabDécroissant = [...notes];
 console.log("Le tableau de base est : " + notes);
 
 // On défini des compteur pour la boucle 1, la boucle 2 et le nombre de changement
