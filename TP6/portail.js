@@ -59,4 +59,6 @@ btn.addEventListener("click", () => {
   } catch (err) {
     errForm.innerHTML = `<p>Vous n'avez pas rempli tous les champs du formulaire !</p>`;
   }
+
+  window.location.href = "../game.html";
 });
