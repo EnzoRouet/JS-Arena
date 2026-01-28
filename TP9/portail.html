@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Portail de connexion</title>
+    <link rel="stylesheet" href="portail.css" />
+  </head>
+  <body>
+    <h1>Bienvenue</h1>
+    <section>
+      <form action="" id="form">
+        <label for="pseudo">Pseudo : </label>
+        <input
+          class="input-text"
+          type="text"
+          name="pseudo"
+          placeholder="Ex : EnzoLeMeilleur"
+          required
+        />
+
+        <label for="back">Lien backend : </label>
+        <input
+          class="input-text"
+          type="text"
+          placeholder="Ex : http://127.0.0.1:5501/TP6/portail.html"
+          required
+        />
+
+        <label> Skin :</label>
+        <div id="skins-container" class="skins-grid"></div>
+
+        <button type="submit" id="btn-submit">Join</button>
+      </form>
+    </section>
+    <span class="err-Container"></span>
+    <script type="module" src="./JS/portail.js"></script>
+  </body>
+</html>
