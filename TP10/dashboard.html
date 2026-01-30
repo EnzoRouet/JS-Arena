@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dashboard Battle Royale</title>
+    <link rel="stylesheet" href="./dashboard.css" />
+  </head>
+  <body>
+    <h1>Dashboard</h1>
+
+    <div class="controls-container">
+      <form id="connection-form">
+        <label for="IP">Serveur (IP:PORT) :</label>
+        <input type="text" id="IP" value="13.38.137.68:8000" required />
+        <button type="submit">Connexion</button>
+      </form>
+
+      <div>
+        <label for="player-select">Détails Joueur :</label>
+        <select id="player-select">
+          <option value="">-- En attente de connexion --</option>
+        </select>
+      </div>
+    </div>
+
+    <div id="player-stats-container" class="stats-box disable">
+      <h2>Fiche : <span id="stat-name">NomDuJoueur</span></h2>
+      <div class="stats-grid">
+        <div class="stat-item">
+          <strong>Kills</strong>
+          <span id="stat-kills">0</span>
+        </div>
+        <div class="stat-item">
+          <strong>Morts</strong>
+          <span id="stat-deaths">0</span>
+        </div>
+        <div class="stat-item">
+          <strong>Ratio K/D</strong>
+          <span id="stat-ratio">0.00</span>
+        </div>
+        <div class="stat-item">
+          <strong>Dernier Rank</strong>
+          <span id="stat-last-rank">-</span>
+        </div>
+        <div class="stat-item">
+          <strong>Rank Moyen</strong>
+          <span id="stat-avg-rank">-</span>
+        </div>
+        <div class="stat-item">
+          <strong>Parties</strong>
+          <span id="stat-games">0</span>
+        </div>
+      </div>
+    </div>
+
+    <h2>Classement Général</h2>
+
+    <div class="table-container">
+      <table class="ranking-table">
+        <thead>
+          <tr>
+            <th>Pos</th>
+            <th data-sort="name">Joueur</th>
+            <th data-sort="totalKills">Kills</th>
+            <th data-sort="totalDeaths">Morts</th>
+            <th data-sort="kdRatio">Ratio K/D</th>
+            <th data-sort="lastGameRank">Dern. Pos.</th>
+            <th data-sort="overallRanking">Pos. Moy.</th>
+            <th data-sort="gamesPlayed">Parties</th>
+          </tr>
+        </thead>
+        <tbody id="ranking-body">
+          <tr class="loading-row">
+            <td colspan="5">En attente de données... Cliquez sur Connexion.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <script src="dashboard.js"></script>
+  </body>
+</html>
