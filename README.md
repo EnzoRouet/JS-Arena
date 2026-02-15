@@ -1,74 +1,69 @@
-# 🎮 Battle Royale JS - Multiplayer Web Engine
+# 🎮 Battle Royale JS - Multiplayer Web Engine (MVC Architecture)
 
 **Projet académique fil rouge** réalisé durant mon Bachelor Full Stack.
-Développement d'un moteur de jeu multijoueur en temps réel, intégrant un système de sprites animés et une synchronisation serveur asynchrone via Uvicorn.
+Développement d'un moteur de jeu multijoueur en temps réel, structuré selon le pattern **MVC** pour séparer la logique métier du rendu graphique. Ce projet démontre une capacité à concevoir des systèmes complexes et synchronisés en environnement asynchrone.
 
 ## 🎯 Contexte & Objectifs Pédagogiques
 
-Ce projet a été structuré en 10 Travaux Pratiques (TP), simulant un cycle de production réel. La particularité du projet résidait dans le **découplage Frontend/Backend** : le client a été développé "à l'aveugle" jusqu'au TP6, nécessitant une architecture modulaire pour intégrer tardivement le serveur Python.
+Ce projet a été structuré en 10 Travaux Pratiques (TP), simulant un cycle de production réel. La particularité résidait dans le **développement découplé** : le client a été entièrement conçu avant la mise à disposition du backend (TP6), imposant une modularité rigoureuse et l'utilisation de données simulées (Mocks).
 
 **Objectifs validés :**
 
-- Architecture de code asynchrone (Promises, Async/Await) pour les échanges API.
-- Gestion d'un **Dashboard utilisateur** avec authentification et portail de connexion.
-- Manipulation de **Spritesheets** : Découpage et animation de personnages en JavaScript.
-- Débuggage et adaptation d'un backend existant (Python/FastAPI) pour assurer la stabilité des sessions.
-- Déploiement et exécution d'un serveur asynchrone via **Uvicorn**.
+- Implémentation du pattern **MVC** (Modèle-Vue-Contrôleur) en JavaScript natif.
+- Manipulation de **Spritesheets** : Découpage dynamique et animation de personnages sur Canvas.
+- Communication asynchrone (Fetch API) avec un backend **Uvicorn/FastAPI**.
+- Débuggage et optimisation d'une base de données relationnelle **SQLite**.
 
 ## 🛠️ Stack Technique
 
-- **Frontend :** JavaScript Vanilla (ES6+), HTML5, CSS3.
-- **Backend :** Python (Moteur de jeu asynchrone), SQLite (`game.db`).
+- **Frontend :** JavaScript Vanilla (ES6+), HTML5 Canvas, CSS3.
+- **Backend :** Python (FastAPI), SQLite (`game.db`).
 - **Serveur :** Uvicorn (ASGI server).
 - **Architecture :** Programmation Orientée Objet (Classes `Game`, `Player`, `GameController`).
 
-## ✨ Structure du Projet
+## 🏗️ Focus Architecture : Le Pattern MVC
 
-L'application sépare la logique métier, le rendu et la persistance :
+Pour garantir la maintenabilité malgré l'absence initiale de serveur, le projet suit une séparation stricte des responsabilités :
 
-### 1. Moteur de Jeu & Contrôle (`Game.js`, `GameController.js`)
+1. **Le Modèle (`Game.js`, `Player.js`)** : Gère l'état pur du jeu (coordonnées, points de vie, inventaire) et les règles de collision. Il est totalement indépendant de l'affichage.
+2. **La Vue (`GameView.js`)** : Observe le Modèle et s'occupe exclusivement du rendu graphique (dessin des sprites, décors, effets visuels).
+3. **Le Contrôleur (`GameController.js`)** : Intercepte les entrées utilisateur (clavier/souris) et orchestre les mises à jour du Modèle en fonction des retours du serveur.
 
-Gestion du cycle de vie du jeu (Game Loop) et interception des entrées clavier/souris pour piloter les actions du joueur.
+## ✨ Fonctionnalités Développées
 
-- `Game.js` : Orchestre l'état global du monde.
-- `Player.js` : Gère les propriétés individuelles (position, santé, skin).
+### 1. Moteur d'Animation de Sprites
 
-### 2. Gestion des Ressources (Assets)
+Le moteur JavaScript découpe dynamiquement les planches de sprites (Spritesheets) stockées dans les assets. Les animations (marche, repos, actions) sont synchronisées avec le cycle de rafraîchissement du jeu (Game Loop).
 
-Utilisation de **Spritesheets** complexes. Le moteur JavaScript découpe dynamiquement les planches de sprites pour animer les déplacements et les actions des joueurs de manière fluide.
+### 2. Dashboard & Persistance
 
-### 3. Backend Asynchrone (`main.py`, `db.py`)
+Interface complète de gestion de profil (`dashboard.html`) permettant de choisir son skin et de consulter ses statistiques, le tout relié au backend Python pour la persistance des données.
 
-Point d'entrée Python gérant la base de données SQLite pour stocker les scores et les profils. Le serveur est optimisé pour traiter plusieurs requêtes simultanées grâce à Uvicorn.
+### 3. Synchronisation Multi-Joueurs (Uvicorn)
 
-## 🏗️ Architecture : Développement en Isolation
-
-Le défi de coder sans backend pendant 60% du projet a imposé une structure "Plug & Play" :
-
-- **Abstraction des données :** Création d'interfaces de données fictives (Mocks) pour simuler les réponses du serveur.
-- **Découplage :** Utilisation de classes indépendantes pour que l'intégration finale du backend au TP6 ne nécessite pas de réécrire toute la logique graphique.
+Gestion des flux de données en temps réel. Le client communique avec un serveur asynchrone performant capable de gérer les interactions simultanées de plusieurs dizaines de joueurs.
 
 ## 🧠 Challenges Techniques Résolus
 
-### Synchronisation Client/Serveur Asynchrone
+### Développement "API-First" et Isolation
 
-Gérer les délais de réponse du serveur sans bloquer l'animation du jeu côté client.
+Le plus grand défi a été de coder la logique de jeu sans backend disponible durant 60% du projet.
 
-- **Solution :** Implémentation de patterns asynchrones robustes dans `GameController.js` pour mettre à jour les positions uniquement lors de la réception des paquets valides.
+- **Solution :** Grâce au MVC, j'ai pu tester toute la logique de déplacement dans le Modèle avec des données fictives. Lors de l'arrivée du backend au TP6, l'intégration a été quasi instantanée car seule la couche de données du Contrôleur a dû être adaptée.
 
-### Débogage du Backend (Uvicorn/Python)
+### Optimisation des accès Concurrents (SQLite)
 
-L'intégration du backend a révélé des instabilités lors des pics de connexion de la promotion.
+Lors des tests en charge, le serveur Python présentait des bugs de verrouillage de base de données.
 
-- **Solution :** Analyse du code `main.py` et correction des requêtes SQL dans `db.py` pour éviter les verrous (locks) sur la base de données `game.db` lors des accès concurrents.
+- **Solution :** Analyse du code `db.py` et optimisation des requêtes SQL pour assurer que les écritures de scores et de positions ne bloquent pas le serveur Uvicorn.
 
 ## ⚙️ Installation & Lancement
 
 1. **Cloner le dépôt :**
 
-   ```bash
-   git clone [https://github.com/EnzoRouet/JS-Arena]
-   ```
+```bash
+git clone [https://github.com/EnzoRouet/JS-Arena]
+```
 
 2. **Lancer le backend :**
 
